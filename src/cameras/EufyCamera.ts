@@ -5,8 +5,8 @@ import GenericRtspCamera from './GenericRtspCamera';
 export default class EufyCamera extends GenericRtspCamera {
     protected config: CameraConfigEufy;
 
-    constructor(adapter: ioBroker.Adapter, config: CameraConfigAny) {
-        super(adapter, config);
+    constructor(adapter: ioBroker.Adapter, config: CameraConfigAny, ffmpegPath: string) {
+        super(adapter, config, ffmpegPath);
         this.config = config as CameraConfigEufy;
     }
 

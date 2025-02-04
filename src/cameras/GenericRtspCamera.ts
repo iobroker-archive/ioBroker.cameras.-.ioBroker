@@ -12,14 +12,16 @@ export default class GenericRtspCamera extends GenericCamera {
     protected decodedPassword = '';
     private lastFrame: number = 0;
     private monitor: ReturnType<typeof setTimeout> | null = null;
-    private runningRequest: Promise<{ body: Buffer; contentType: ContentType }> | null = null;
+    protected runningRequest: Promise<{ body: Buffer; contentType: ContentType }> | null = null;
     private lastBase64Frame = '';
     private proc: FfmpegCommand | null = null;
     public isRtsp = true;
     protected settings: RtspOptions | null = null;
+    private readonly ffmpegPath: string;
 
-    constructor(adapter: ioBroker.Adapter, config: CameraConfigAny) {
+    constructor(adapter: ioBroker.Adapter, config: CameraConfigAny, ffmpegPath: string) {
         super(adapter, config);
+        this.ffmpegPath = ffmpegPath;
         //     Fill settings
         //     fill decodedPassword
         //     this.decodedPassword = this.adapter.decrypt(this.config.password);
@@ -74,7 +76,7 @@ export default class GenericRtspCamera extends GenericCamera {
         this.runningRequest = getRtspSnapshot(
             this.settings,
             outputFileName,
-            (this.adapter.config as CamerasAdapterConfig).ffmpegPath,
+            this.ffmpegPath,
             this.decodedPassword,
             this.config.timeout as number,
             this.adapter.log,
@@ -144,7 +146,7 @@ export default class GenericRtspCamera extends GenericCamera {
             );
 
             this.proc = ffmpeg(url)
-                .setFfmpegPath((this.adapter.config as CamerasAdapterConfig).ffmpegPath)
+                .setFfmpegPath(this.ffmpegPath)
                 // .addInputOption('-preset', 'ultrafast')
                 .addInputOption('-rtsp_transport', 'tcp')
                 .addInputOption('-re')
@@ -160,7 +162,7 @@ export default class GenericRtspCamera extends GenericCamera {
                     );
                     const body = await getRtspSnapshot(
                         this.settings!,
-                        (this.adapter.config as CamerasAdapterConfig).ffmpegPath,
+                        this.ffmpegPath,
                         outputFileName,
                         this.decodedPassword,
                         this.config.timeout as number,

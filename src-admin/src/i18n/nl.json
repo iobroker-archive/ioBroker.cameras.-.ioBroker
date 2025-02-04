@@ -27,7 +27,7 @@
   "If empty or 0, use default settings.": "Indien leeg of 0, gebruik dan de standaardinstellingen.",
   "If empty then in adapter folder": "Indien leeg dan in adaptermap",
   "If empty, use default settings. If 0, cache disabled": "Gebruik de standaardinstellingen als deze leeg zijn. Indien 0, cache uitgeschakeld",
-  "Like /usr/bin/ffmpeg": "Zoals \"/usr/bin/ffmpeg\"",
+  "Like /usr/bin/ffmpeg": "Zoals \"/usr/bin/ffmpeg\" of \"c:/Progam Files/ffmpeg/ffmpeg.exe\"",
   "Load configuration from file": "Laad de configuratie uit het bestand",
   "Local IP address": "Lokaal IP-adres",
   "Local URL": "Lokale URL",

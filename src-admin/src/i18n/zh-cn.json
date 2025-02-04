@@ -27,7 +27,7 @@
   "If empty or 0, use default settings.": "如果为空或 0，则使用默认设置。",
   "If empty then in adapter folder": "如果为空则在适配器文件夹中",
   "If empty, use default settings. If 0, cache disabled": "如果为空，则使用默认设置。如果为 0，则禁用缓存",
-  "Like /usr/bin/ffmpeg": "比如“/usr/bin/ffmpeg”",
+  "Like /usr/bin/ffmpeg": "例如“/usr/bin/ffmpeg”或“c:/Progam Files/ffmpeg/ffmpeg.exe”",
   "Load configuration from file": "从文件加载配置",
   "Local IP address": "本地IP地址",
   "Local URL": "本地网址",

@@ -7,8 +7,8 @@ const node_url_1 = require("node:url");
 const GenericRtspCamera_1 = __importDefault(require("./GenericRtspCamera"));
 class EufyCamera extends GenericRtspCamera_1.default {
     config;
-    constructor(adapter, config) {
-        super(adapter, config);
+    constructor(adapter, config, ffmpegPath) {
+        super(adapter, config, ffmpegPath);
         this.config = config;
     }
     async init() {

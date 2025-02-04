@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const GenericRtspCamera_1 = __importDefault(require("./GenericRtspCamera"));
 class RtspCamera extends GenericRtspCamera_1.default {
     config;
-    constructor(adapter, config) {
-        super(adapter, config);
+    constructor(adapter, config, ffmpegPath) {
+        super(adapter, config, ffmpegPath);
         this.config = config;
     }
     async init() {

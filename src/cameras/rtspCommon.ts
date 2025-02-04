@@ -1,5 +1,6 @@
-import { readFileSync } from 'node:fs';
-import { spawn } from 'node:child_process';
+import { existsSync, readFileSync } from 'node:fs';
+import { spawn, execSync } from 'node:child_process';
+import { normalize } from 'node:path';
 
 export interface RtspOptions {
     ip: string;
@@ -11,6 +12,69 @@ export interface RtspOptions {
     username?: string;
     originalHeight?: number | string;
     originalWidth?: number | string;
+}
+
+export function findFFmpegPath(pathToExecutable?: string, log?: ioBroker.Log): string {
+    if (pathToExecutable) {
+        return existsSync(pathToExecutable) ? normalize(pathToExecutable).replace(/\\/g, '/') : '';
+    }
+    if (process.platform === 'win32') {
+        // Try to find in the current directory
+        if (existsSync(`${__dirname}/../../win-ffmpeg.exe`)) {
+            return normalize(`${__dirname}/../../win-ffmpeg.exe`).replace(/\\/g, '/');
+        }
+        // execute where command
+        try {
+            const path = execSync('where ffmpeg');
+            if (path.toString().trim()) {
+                return path.toString().trim().replace(/\\/g, '/');
+            }
+        } catch (e) {
+            log?.warn(`Cannot execute "where ffmpeg": ${e}`);
+        }
+        throw new Error('FFmpeg not found');
+    }
+
+    const paths = [
+        '/usr/bin/ffmpeg',
+        '/usr/local/bin/ffmpeg',
+        '/usr/local/ffmpeg/bin/ffmpeg',
+        '/usr/ffmpeg/bin/ffmpeg',
+    ];
+    for (const path of paths) {
+        if (existsSync(path)) {
+            return path;
+        }
+    }
+    // execute where command
+    try {
+        const path = execSync('which ffmpeg');
+        if (path.toString().trim()) {
+            return path.toString().trim();
+        }
+    } catch (e) {
+        log?.warn(`Cannot execute "which ffmpeg": ${e}`);
+    }
+    throw new Error('FFmpeg not found');
+}
+
+export function getFFmpegVersion(ffmpegPath: string, log?: ioBroker.Log): string {
+    const _ffmpegPath = findFFmpegPath(ffmpegPath, log);
+
+    try {
+        const data = execSync(`${_ffmpegPath} -version`).toString();
+        if (data) {
+            const result = data.split('\n')[0];
+            const version = result.match(/version\s+([-\w.]+)/i);
+            if (version) {
+                return version[1];
+            }
+            return result;
+        }
+        return '';
+    } catch {
+        return '';
+    }
 }
 
 function maskPassword(str: string, password: string): string {
@@ -45,7 +109,7 @@ function buildCommand(config: RtspOptions, outputFileName: string, decodedPasswo
 
     parameters.push('-i');
     parameters.push(
-        `rtsp://${config.username ? `${encodeURIComponent(config.username)}:${password}@` : ''}${config.ip}:${config.port || 554}${config.urlPath ? (config.urlPath.startsWith('/') ? config.urlPath : `/${config.urlPath}`) : ''}`,
+        `rtsp://${config.username ? `${encodeURIComponent(config.username)}:${password}@` : ''}${config.ip}${!config.port || parseInt(config.port as string, 10) === 554 ? '' : `:${config.port}`}${config.urlPath ? (config.urlPath.startsWith('/') ? config.urlPath : `/${config.urlPath}`) : ''}`,
     );
 
     parameters.push('-loglevel');

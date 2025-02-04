@@ -6,11 +6,13 @@ import UrlBasicAuthCamera from './UrlBasicAuthCamera';
 import RtspCamera from './RtspCamera';
 import ReolinkE1Camera from './ReolinkE1Camera';
 import EufyCamera from './EufyCamera';
+import UniversalCamera from './UniversalCamera';
 
 export default async function createCamera(
     adapter: ioBroker.Adapter,
     config: CameraConfigAny,
     streamSubscribes: { camera: string; clientId: string }[],
+    ffmpegPath: string,
 ): Promise<GenericCamera> {
     let camera: GenericCamera;
     switch (config.type) {
@@ -21,16 +23,19 @@ export default async function createCamera(
             camera = new UrlBasicAuthCamera(adapter, config);
             break;
         case 'hikam':
-            camera = new HiKamCamera(adapter, config);
+            camera = new HiKamCamera(adapter, config, ffmpegPath);
             break;
         case 'rtsp':
-            camera = new RtspCamera(adapter, config);
+            camera = new RtspCamera(adapter, config, ffmpegPath);
             break;
         case 'reolinkE1':
-            camera = new ReolinkE1Camera(adapter, config);
+            camera = new ReolinkE1Camera(adapter, config, ffmpegPath);
             break;
         case 'eufy':
-            camera = new EufyCamera(adapter, config);
+            camera = new EufyCamera(adapter, config, ffmpegPath);
+            break;
+        case 'universal':
+            camera = new UniversalCamera(adapter, config, ffmpegPath);
             break;
     }
     if (!camera) {

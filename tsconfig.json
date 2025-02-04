@@ -37,6 +37,6 @@
         "useUnknownInCatchVariables": false,
         "types": ["@iobroker/types"]
     },
-    "include": ["src/**/*.ts", "src/**/*.js"],
+    "include": ["src/**/*.ts", "src/**/*.js", "tools/*.ts"],
     "exclude": ["build/**", "node_modules/**", "src-admin/**"]
 }

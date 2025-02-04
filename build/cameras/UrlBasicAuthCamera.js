@@ -22,20 +22,25 @@ class UrlBasicAuthCamera extends GenericCamera_1.default {
         }
         this.config.password = this.config.password || '';
         // Calculate basic authentication. The password was encrypted and must be decrypted
-        this.basicAuth = `Basic ${Buffer.from(`${this.config.username}:${this.adapter.decrypt(this.config.password)}`).toString('base64')}`;
+        this.basicAuth = this.config.username
+            ? `Basic ${Buffer.from(`${this.config.username}:${this.adapter.decrypt(this.config.password)}`).toString('base64')}`
+            : undefined;
         return super.init();
     }
     async process() {
         if (this.runningRequest) {
             return this.runningRequest;
         }
-        this.runningRequest = axios_1.default
-            .get(this.config.url, {
+        const options = {
             responseType: 'arraybuffer',
             validateStatus: status => status < 400,
             timeout: this.config.timeout,
-            headers: { Authorization: this.basicAuth },
-        })
+        };
+        if (this.basicAuth) {
+            options.headers = { Authorization: this.basicAuth };
+        }
+        this.runningRequest = axios_1.default
+            .get(this.config.url, options)
             .then(response => {
             this.runningRequest = null;
             return {

@@ -27,7 +27,7 @@
   "If empty or 0, use default settings.": "S'il est vide ou 0, utilisez les paramètres par défaut.",
   "If empty then in adapter folder": "Si vide, alors dans le dossier de l'adaptateur",
   "If empty, use default settings. If 0, cache disabled": "Si vide, utilisez les paramètres par défaut. Si 0, cache désactivé",
-  "Like /usr/bin/ffmpeg": "Comme \"/usr/bin/ffmpeg\"",
+  "Like /usr/bin/ffmpeg": "Comme « /usr/bin/ffmpeg » ou « c:/Progam Files/ffmpeg/ffmpeg.exe »",
   "Load configuration from file": "Charger la configuration à partir du fichier",
   "Local IP address": "Adresse IP locale",
   "Local URL": "URL locale",

@@ -4,8 +4,8 @@ import GenericRtspCamera from './GenericRtspCamera';
 export default class RtspCamera extends GenericRtspCamera {
     protected config: CameraConfigRtsp;
 
-    constructor(adapter: ioBroker.Adapter, config: CameraConfigAny) {
-        super(adapter, config);
+    constructor(adapter: ioBroker.Adapter, config: CameraConfigAny, ffmpegPath: string) {
+        super(adapter, config, ffmpegPath);
         this.config = config as CameraConfigRtsp;
     }
 

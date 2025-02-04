@@ -1,5 +1,5 @@
 export type ContentType = string;
-export type CameraType = 'url' | 'urlBasicAuth' | 'rtsp' | 'reolinkE1' | 'eufy' | 'hikam';
+export type CameraType = 'url' | 'urlBasicAuth' | 'rtsp' | 'reolinkE1' | 'eufy' | 'hikam' | 'universal';
 
 export type CameraName = string;
 
@@ -57,6 +57,23 @@ export interface CameraConfigRtsp extends CameraConfig {
     protocol: 'udp' | 'tcp';
 }
 
+export interface CameraConfigUniversal extends CameraConfig {
+    type: 'universal';
+    ip: string;
+    /** Default 554 */
+    port: string | number;
+    /** Path from configuration file, like "/channel80" */
+    urlPath: string;
+    password?: string;
+    username?: string;
+    urlProtocol: 'rtsp://' | 'http://' | '';
+    /** Manufacturer of the camera, like "ezviz" */
+    manufacturer: string;
+    /** Model of the camera, like C3W */
+    model: string;
+    channel?: number | string;
+}
+
 export interface CameraConfigReolink extends CameraConfig {
     type: 'reolinkE1';
     ip: string;
@@ -71,6 +88,7 @@ export type CameraConfigAny =
     | CameraConfigRtsp
     | CameraConfigEufy
     | CameraConfigHiKam
+    | CameraConfigUniversal
     | CameraConfigReolink;
 
 export interface CamerasAdapterConfig {

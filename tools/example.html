@@ -1,0 +1,382 @@
+<html lang="en" dir="ltr"><head id="ctl00_Head1"><title>
+    Complete Ezviz IP Camera Setup Guide - ONVIF, RTSP and Tutorial Included
+</title><link rel="preconnect" href="//ispycontent.azureedge.net"><link rel="preconnect" href="//fonts.googleapis.com"><link rel="preconnect" href="//fonts.gstatic.com" crossorigin="anonymous"><link rel="icon" href="/favicon.ico" type="image/x-icon"><link rel="shortcut icon" href="//ispycontent.azureedge.net/favicon.ico"><link rel="apple-touch-icon" href="//ispycontent.azureedge.net/img/icons/ispy_196.png"><link rel="apple-touch-icon" sizes="72x72" href="//ispycontent.azureedge.net/img/icons/ispy_72.png"><link rel="apple-touch-icon" sizes="114x114" href="//ispycontent.azureedge.net/img/icons/ispy_114.png"><link rel="stylesheet prefetch" href="//fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap"><link rel="stylesheet preload prefetch" href="//ispycontent.azureedge.net/app/css/v5/themes/zephyr.min.css" as="style"><link rel="stylesheet prefetch" href="//ispycontent.azureedge.net/css/mainsite2.css"><link rel="stylesheet prefetch" href="//ispycontent.azureedge.net/app/css/v5/fontawesome/all.min.css?v=638594658473571243">
+    <link rel="alternate" hreflang="x-default" href="https://www.ispyconnect.com/camera/ezviz">
+    <link rel="alternate" hreflang="en" href="https://www.ispyconnect.com/camera/ezviz">
+    <link rel="alternate" hreflang="ar" href="https://www.ispyconnect.com/ar/camera/ezviz">
+    <link rel="alternate" hreflang="zh-cn" href="https://www.ispyconnect.com/zh-cn/camera/ezviz">
+    <link rel="alternate" hreflang="es" href="https://www.ispyconnect.com/es/camera/ezviz">
+    <link rel="alternate" hreflang="fr" href="https://www.ispyconnect.com/fr/camera/ezviz">
+    <link rel="alternate" hreflang="hi" href="https://www.ispyconnect.com/hi/camera/ezviz">
+    <link rel="alternate" hreflang="ja" href="https://www.ispyconnect.com/ja/camera/ezviz">
+    <link rel="alternate" hreflang="ko" href="https://www.ispyconnect.com/ko/camera/ezviz">
+    <link rel="alternate" hreflang="it" href="https://www.ispyconnect.com/it/camera/ezviz">
+    <link rel="alternate" hreflang="de" href="https://www.ispyconnect.com/de/camera/ezviz">
+    <link rel="alternate" hreflang="id" href="https://www.ispyconnect.com/id/camera/ezviz">
+    <link rel="alternate" hreflang="pl" href="https://www.ispyconnect.com/pl/camera/ezviz">
+    <link rel="alternate" hreflang="pt" href="https://www.ispyconnect.com/pt/camera/ezviz">
+    <link rel="alternate" hreflang="vi" href="https://www.ispyconnect.com/vi/camera/ezviz">
+    <link rel="alternate" hreflang="zh-tw" href="https://www.ispyconnect.com/zh-tw/camera/ezviz">
+    <meta property="og:title" content="Complete Ezviz IP Camera Setup Guide - ONVIF, RTSP and Tutorial Included"><meta property="og:type" content="website"><meta property="og:url" content="https://www.ispyconnect.com/camera/ezviz"><meta property="og:image" content="https://ispycontent.azureedge.net/content/graph_image.png"><meta property="og:image" content="https://ispycontent.azureedge.net/content/graph_image.webp"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:site_name" content="iSpyConnect.com"><meta property="og:description" content="Discover the ultimate guide for setting up your Ezviz IP cameras with our free software. Stream live video via RTSP, enable ONVIF support for universal compatibility, and utilize advanced DVR for robust motion detection. Login to manage your Ezviz camera securely and effortlessly."><meta property="og:locale" content="en"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta charset="utf-8"><meta name="author" content="iSpyConnect"><meta name="robots" content="index, follow, noodp"><meta name="theme-color" content="#363C47"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="//ispycontent.azureedge.net/script/mainsite.js" defer=""></script>
+    <script src="//ispycontent.azureedge.net/app/script/bootstrap.bundle.min.js" defer=""></script>
+
+    <script src="/content/man.js?v=2"></script>
+    <link rel="stylesheet" href="/css/man.css?v=2">
+    <meta name="description" content="Discover the ultimate guide for setting up your Ezviz IP cameras with our free software. Stream live video via RTSP, enable ONVIF support for universal compatibility, and utilize advanced DVR for robust motion detection. Login to manage your Ezviz camera securely and effortlessly."></head>
+<body style="" class="">
+<div id="languageOption" class="p-2 m-0 bg-info text-center"><a href="https://www.ispyconnect.com/de/camera/ezviz" class="alert-link text-white">Diese Seite auf Deutsch ansehen</a><button class="btn text-white btn-lg" aria-label="X" style="position: absolute; inset-inline-end: 10px; top: -5px;"><i class="fa fa-close"></i></button></div>
+<header class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="z-index:1031">
+    <nav class="container-xxl position-relative d-flex justify-content-between" aria-label="Main navigation">
+        <div class="d-flex">
+            <a class="navbar-brand p-0 m-0" href="/"><picture>
+                <source srcset="//ispycontent.azureedge.net/img/agent.webp" type="image/webp">
+                <img src="https://ispycontent.azureedge.net/img/ispy.png" id="siteicon" alt="iSpy Video Surveillance Software" title="iSpy Video Surveillance Software" width="75" height="45" class="me-2">
+            </picture> <span class="d-none d-sm-inline me-2">iSpy</span></a>
+
+        </div>
+        <div class="collapse navbar-collapse d-none d-lg-block" role="navigation">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/download">Download</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Docs
+                    </a>
+                    <div class="dropdown-menu bg-light text-dark" aria-labelledby="navbarDropdown3" data-bs-popper="static">
+                        <a class="dropdown-item " href="/docs/agent/">Agent DVR</a>
+                        <a class="dropdown-item " href="/docs/ispy/">iSpy</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarLicensing" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Licensing
+                    </a>
+                    <div class="dropdown-menu bg-light text-dark" aria-labelledby="navbarLicensing" data-bs-popper="static">
+                        <a class="dropdown-item " href="/pricing">Remote Access Subscriptions</a>
+                        <a class="dropdown-item " href="/licensing/agent.aspx">Business Licensing</a>
+                        <a class="dropdown-item " href="/licensing/bulk.aspx">Volume Licensing</a>
+                        <a class="dropdown-item " href="/licensing/move-license.aspx?to=">Move License</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarMore" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        More
+                    </a>
+                    <div class="dropdown-menu bg-light text-dark" aria-labelledby="navbarMore" data-bs-popper="static">
+                        <a class="dropdown-item " href="/about">About</a>
+                        <a class="dropdown-item " href="/features">Features</a>
+                        <a class="dropdown-item " href="/cameras">Camera Database</a>
+                        <a class="dropdown-item " href="https://www.reddit.com/r/ispyconnect/" target="_blank" rel="noopener">Community</a>
+                        <a class="dropdown-item " href="https://ispysoftware.github.io/Agent_API/" rel="external">API</a>
+                        <a class="dropdown-item " href="/status">Service Status</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="offcanvas offcanvas-end d-lg-none bg-light text-dark" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+            <div class="offcanvas-header  ">
+                <h5 class="offcanvas-title" id="offcanvasMenuLabel">iSpyConnect</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body" role="navigation">
+                <h5>Software</h5>
+                <ul class="nav flex-row flex-wrap">
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/download">Download</a>
+                    </li>
+                </ul>
+                <hr>
+                <h5>Remote Access</h5>
+                <ul class="nav flex-row flex-wrap">
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/app/">Agent DVR</a>
+                    </li>
+                </ul>
+                <hr>
+                <h5>Docs</h5>
+                <ul class="nav flex-row flex-wrap">
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/docs/agent/">Agent DVR</a>
+                    </li>
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/docs/ispy/">iSpy</a>
+                    </li>
+                </ul>
+                <hr>
+                <h5>More</h5>
+                <ul class="nav flex-row flex-wrap">
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/about">About</a>
+                    </li>
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/features">Features</a>
+                    </li>
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/cameras">Camera Database</a>
+                    </li>
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="https://www.reddit.com/r/ispyconnect/" target="_blank" rel="noopener">Community</a>
+                    </li>
+                </ul>
+                <hr>
+                <h5>Licensing</h5>
+                <ul class="nav flex-row flex-wrap">
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/pricing">Remote Access Subscriptions</a>
+                    </li>
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/licensing/agent.aspx">Business Licensing</a>
+                    </li>
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/licensing/bulk.aspx">Volume Licensing</a>
+                    </li>
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/licensing/move-license.aspx?to=">Move License</a>
+                    </li>
+                </ul>
+                <hr>
+                <h5>Other</h5>
+                <ul class="nav flex-row flex-wrap">
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="https://ispysoftware.github.io/Agent_API/" rel="external">API</a>
+                    </li>
+                    <li class="col-6 col-lg-auto">
+                        <a class="nav-link fw-bold link-primary" href="/status">Service Status</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="d-flex">
+            <button type="button" class="btn m-0 p-0 pe-1 me-1" title="Search" data-bs-toggle="modal" data-bs-target="#searchModal" aria-label="Search">
+                <svg width="30" height="40" viewBox="0 0 20 20" aria-hidden="true" style="color:#ccc">
+                    <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            <a class="btn p-0 pe-1 me-1" href="/app/" title="Remote Access">
+                <svg width="30" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="color:#ccc">
+                    <path d="M31.278,25.525C34.144,23.332,36,19.887,36,16c0-6.627-5.373-12-12-12c-6.627,0-12,5.373-12,12,c0,3.887,1.856,7.332,4.722,9.525C9.84,28.531,5,35.665,5,44h38C43,35.665,38.16,28.531,31.278,25.525z M16,16c0-4.411,3.589-8,8-8,s8,3.589,8,8c0,4.411-3.589,8-8,8S16,20.411,16,16z M24,28c6.977,0,12.856,5.107,14.525,12H9.475C11.144,33.107,17.023,28,24,28z" fill="currentColor"></path>
+                </svg>
+            </a>
+
+            <button class="btn p-0 pe-1 me-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#langMenu" aria-controls="langMenu" title="Language" aria-label="Language">
+                <svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+                    <text x="50%" y="20" font-size="15" font-family="Arial" fill="#ccc" text-anchor="middle" dominant-baseline="middle">EN</text>
+                </svg>
+            </button>
+
+            <button class="navbar-toggler d-lg-none order-3 p-0 m-0 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar" title="Toggle Navigation" aria-controls="bdNavbar" aria-label="Toggle Navigation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="40" class="bi" fill="#ccc" viewBox="0 0 16 16">
+                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+</header>
+<div class="offcanvas offcanvas-end bg-light text-dark" tabindex="-1" id="langMenu">
+    <div class="offcanvas-header ">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Language</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link fw-bold link-primary" href="/camera/ezviz">English</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/ar/camera/ezviz">العربية</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/zh-cn/camera/ezviz">简体中文</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/es/camera/ezviz">Español</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/fr/camera/ezviz">Français</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/hi/camera/ezviz">हिन्दी</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/ja/camera/ezviz">日本</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/ko/camera/ezviz">한국어</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/it/camera/ezviz">Italiano</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/de/camera/ezviz">Deutsch</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/id/camera/ezviz">Bahasa Indonesia</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/pl/camera/ezviz">Polski</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/pt/camera/ezviz">Português</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/vi/camera/ezviz">Tiếng Việt</a></li><li class="nav-item"><a class="nav-link fw-bold link-primary" href="/zh-tw/camera/ezviz">中文</a></li>
+        </ul>
+    </div>
+</div>
+<div class="overlay"></div>
+<main role="main">
+
+    <section id="header-btm" class="clearfix w-100 bg-primary text-light mb-3 p-3">
+        <div class="container-xxl">
+            <div class="row">
+                <div class="col-md-12 text-white">
+                    <h1>Ezviz IP Camera Setup URL Guide</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="content" class="clearfix">
+        <div class="container-xxl">
+
+            <div class="ad-header">
+                <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4865381389728096" data-ad-slot="7873838143" data-ad-format="auto"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+
+            <h2 class="contentheading about">Ezviz IP Camera Setup URL Guide</h2><br>
+            <p class="lead">
+            </p><p>Efficiently configure your Ezviz IP cameras with our top-rated iSpy or Agent DVR applications. Our robust free surveillance software includes a dedicated wizard tailored for Ezviz models, simplifying the entire setup process. Additionally, take advantage of ONVIF and RTSP compatibility to ensure versatile connection options across different platforms. Whether for home security or office surveillance, Ezviz cameras coupled with our software provide reliable and secure monitoring solutions.</p>
+
+            <p></p>
+
+            <div class="card mb-3">
+                <h3 class="card-header">Ezviz compatible software*</h3>
+                <div class="card-body">
+                    <h4 class="card-title mb-2">Download Free Ezviz Compatible Software</h4>
+                    <div class="row">
+                        <div class="col-md-4 bg-secondary" style="justify-content: center; display: flex; align-items: flex-start;">
+                            <a href="/features"><img src="//ispycontent.azureedge.net/tutorial/Ezviz.webp" width="320" height="320" alt="How to connect Ezviz Camera Tutorial" title="How to connect Ezviz Camera Tutorial" class="m-0 mx-2 img-fluid mx-auto"></a>
+                        </div>
+                        <div class="col-md-8">
+
+                            <p>Explore Agent DVR: the ultimate free AI surveillance software. Effortlessly install and access real-time detection of people, vehicles, and objects. This advanced solution offers a user-friendly interface on any device, supports unlimited cameras, and simplifies remote access without needing port forwarding. Secure and enhance your property with Agent DVR's powerful monitoring capabilities. Download now for round-the-clock safety and peace of mind!</p>
+
+                            <p>
+                                *For secured remote access or business use see <a href="/pricing">Pricing</a>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end"><a role="button" class="btn btn-primary btn-lg m-1 me-2" href="/download">Download Now <i class="fa fa-download"></i></a><a role="button" class="btn btn-info btn-lg m-1" href="/app/">Claim Free Remote Access Trial <i class="fa fa-shield ms-2"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="lead p-2">Tip: Click a model to generate a video connection URL for your Ezviz camera</p>
+            <div class="table-responsive" dir="ltr">
+                <table class="table table-striped table-hover">
+                    <thead class="thead-dark"><tr><th scope="col">Models</th><th scope="col">Type</th><th scope="col">Protocol</th><th scope="col">URL</th></tr></thead>
+                    <tbody>
+                    <tr class="odd" data-port="0"><td>3cn, C1C, C1P, C2W, C3HW, C3S, C3TN, C3W, C3X, C6C, C6CN, C6N, C6T, c8c, CS_CV210, CS_H6C, CS-C1C, CS-C2mini-31WFR, CS-C3HC, cs-c3n, CS-C6CN-A0-3H2WF, CS-C8C-A0-1F2WFL1(G05708394), CS-CTQ3N, CS-CV200, CS-CV206, CS-CV210 (Husky), CS-CV216, CS-CV248, CS-CV310, cs-cw310, CS-H1, CS-H3, CS-H6c-R101-1G2WF, CS-H8C, CS-LC3, cs-ty1, CTQ3N, CTQ3W, CTQ6C, cv210, cv310, CV4, CZQ3W, DB1, DB1C, exCube Pro, ezCube pro, eztube, H1c, H3C, H6C, H8C, H9C, Husky, LC3, Mini-O, Other, TY1, YT1</td><td>FFMPEG</td><td>rtsp://</td><td>/11</td></tr><tr class="even" data-port="0"><td>3CN, c1c, C1mini, C3N, C3N(E32056121), C3W, C3W mike, C3WN, C3X, C4W, C6c, C6CN, C6HN, C6N, C6T, C6W, C8C, C8W Pro, CP1 4MP, CS_CV210, CS_H6C, CS-C1C-E0-1E2WF, CS-C1HC, cs-c3n, CS-C6CN-A0-8C4WF, CS-C6HN-1C2WFR, CS-C6N, CS-C8W, CS-CP1, CS-CTQ3N, CS-CV206, cs-cv246, CS-CV248, CSCV310, CS-CV310, CS-CV311, CS-CY310, CS-DB1, CS-H3, CS-H3c, CS-H3-R100, CS-H8, CS-H8c, CS-H8c-R100, CS-LC1C, cs-ty1, CTQ2C, CTQ3W, CV228, cw3, DB1, DB1C, DC1P, Dome, e3s, H3c, H8c, H9c, Husky, LC1, Mini O Plus, Other, TY1, TY2</td><td>FFMPEG</td><td>rtsp://</td><td>/</td></tr><tr class="odd" data-port="554"><td>3CN, c1c, C6CN, C6N, CS_CV310, cs-c3n, CS-CV206, CS-CV206-C0-3B2WFR, CS-CV246-A0-1C2WFR, cs-cv310, cs-ty1, CS-TY2, CTQ2C, CTQ3W, DB1, H1c, H8c, TY1</td><td>FFMPEG</td><td>rtsp://</td><td>/channel1</td></tr><tr class="even" data-port="554"><td>3CW, c1c, c3n, C3N, C3Q, C3TN, C3W, C3W Pro, C3X, C6 2K, C6 2K+, C6c, C6CN, C6HN, C6N, c6s, C6T, C8C, C8W, C8W Pro, CQ6N, CS-C3HW-1C2WFR, CS-C4, CS-C6H, CS-C8C-A0-1F2WFL1(G05708394), CS-C8W, CS-CP1, CS-CTQ3N, CS-CV206, cs-cv-246, CS-CV246, CS-CV248, cs-cv310, CSCV310, CS-CV311, CS-DB1, CS-DB1C, CS-DP2C, CS-H6, CS-H6C, CSH8C, cs-ty1, CS-TY2, CT3N, CTQ2C, CTQ6C, cw-c310, db1, DB1C, Door bell, DoorBell, EZ360, Ezviz CTQ3N, H3C, H8c, husky, Indoor, LC1, LC3, Mini O Plus, Other, TY1</td><td>FFMPEG</td><td>rtsp://</td><td>/H.264</td></tr><tr class="odd" data-port="554"><td>c1c, C3X, C8c, CS-C3TN, CS-CV248, cs-cv310, CS-DB1C, DB1C, H8C</td><td>FFMPEG</td><td>rtsp://</td><td>/h265_stream</td></tr><tr class="even" data-port="0"><td>c1c, C1HC, C1Mini, C1P, C2C, C3A, c3c, C3N, C3S, C3TN, C3W, C3WN, C3X, C4W, C6c, C6C, C6CN, c6cnpro, C6N, C6TC, C6W, c8c, CS_CV210, CS-C3HC, cs-c3n, CS-C8C-A0-1F2WF0, CS-CTQ2C, CS-CTQ3N, CS-CV206, cs-cv246, cs-cv-246, CS-CV248, CS-CV310, CS-H3, CS-H6c-R100-8B4WF, C-SH8, CS-H8c, CTQ20, CTQ2C, CTQ3N, CTQ3W, CTQ6C, ctq6tc, cw310, CW3N, cw8, DB1, DB1C, dp1s, eztube, H1C, H6C, H8C, husky, MINI O, Mini O Plus, mini pano, MINI PLUS, Mini-O, Other, OutPro, TY1</td><td>FFMPEG</td><td>rtsp://</td><td>/h264_stream</td></tr><tr class="odd" data-port="554"><td>c1c, CS-C3N, CS-H3, CS-H3C, CTQ2C, H9c, HUSKY</td><td>FFMPEG</td><td>rtsp://</td><td>/Channel/01</td></tr><tr class="even" data-port="554"><td>c1C, CS-C6H-31WFR, CS-C8C-A0-1F2WFL1(G05708394), cs-cv310, CS-H8c, H6c PRO, H8c, LC3, Mini O Plus, Mini-O, TY1</td><td>FFMPEG</td><td>rtsp://</td><td>/h.264</td></tr><tr class="odd" data-port="554"><td>C1C, C3W, cs-cv310, CS-DP2C, DP1C</td><td>FFMPEG</td><td>rtsp://</td><td>/stream1</td></tr><tr class="even" data-port="8090"><td>C1C, C4W, C6CN, C6T, CS-CV206, CS-CV248, cs-cv310, CS-H6c</td><td>FFMPEG</td><td>http://</td><td>/video.mjpg?q=30&amp;fps=33&amp;id=0.5</td></tr><tr class="odd" data-port="554"><td>C1C, C3WN, C6CN, C6N, cs-c3n, CS-C8C-A0-1F2WFL1(G05708394), CS-C8PF, CS-C8W, CS-CV206, cs-cv310, CS-DB1C, CS-H3_R100, CSH8C, CS-TY2, CTQ2C, H7c, h8c, H9c</td><td>FFMPEG</td><td>rtsp://</td><td>/Streaming/Channels/1</td></tr><tr class="even" data-port="554"><td>C1C, C2C, C3WN, C6CN, C6N, c6s, CQ6N, cs-c3n, CS-C6N, CS-C8PF, CS-cv246, CS-CV248, cs-cv310, CTQ2C, CTQ3N</td><td>FFMPEG</td><td>rtsp://</td><td>/channel0</td></tr><tr class="odd" data-port="554"><td>C1C, CS-C8C-A0-1F2WFL1(G05708394), CS-DB1C, CTQ3N, CTQ3W, H8c, TY2</td><td>FFMPEG</td><td>rtsp://</td><td>/1</td></tr><tr class="even" data-port="554"><td>C1HC, CS-C6N, CS-C6N-D0, CS-C8T, CS-CV246-A0-1C2WFR, cs-cv310, CTQ2C, CTQ3W, H8C, H8c 2K+, LC3, onvif , TY1</td><td>FFMPEG</td><td>rtsp://</td><td>/onvif1</td></tr><tr class="odd" data-port="0"><td>c2cube, Other</td><td>VLC</td><td>rtsp://</td><td>cam[CHANNEL]/h264</td></tr><tr class="even" data-port="554"><td>C2Q, C3W Pro, C8W Pro, CS-CP1, cs-cv310, CS-H8c, LC3</td><td>FFMPEG</td><td>rtsp://</td><td>/user=[USERNAME]_password=[PASSWORD]_channel=1_stream=0.sdp</td></tr><tr class="odd" data-port="554"><td>C3A, H8C</td><td>FFMPEG</td><td>rtsp://</td><td>/h_264</td></tr><tr class="even" data-port="554"><td>C3N, CS-C8C-A0-1F2WFL1(G05708394), CS-DP2C, CSH8c, Mini O Plus, Other</td><td>FFMPEG</td><td>rtsp://</td><td>/cam1/onvif-h264</td></tr><tr class="odd" data-port="554"><td>C3N(E32056121), CS-C6H-31WRF, DB1</td><td>FFMPEG</td><td>rtsp://</td><td>/H_264</td></tr><tr class="even" data-port="554"><td>C3W, C8C</td><td>FFMPEG</td><td>rtsp://</td><td>/channel80</td></tr><tr class="odd" data-port="554"><td>C3X, H3C, LC3</td><td>FFMPEG</td><td>rtsp://</td><td>/h264/ch1/main/av_stream</td></tr><tr class="even" data-port="554"><td>C4S, C6HN, C8C, CS-C1T, CS-C6HN-1C2WFR, CS-C8W, CS-CP1, CS-CTQ2C, CS-DP2C, CS-H3-R100, CTQ2C, Ezviz-C6, H8C, hC1</td><td>FFMPEG</td><td>rtsp://</td><td>/H.265</td></tr><tr class="odd" data-port="554"><td>C4W, C8c 2K+</td><td>FFMPEG</td><td>rtsp://</td><td>/stream</td></tr><tr class="even" data-port="554"><td>C6C</td><td>FFMPEG</td><td>rtsp://</td><td>/cam0/mjpeg</td></tr><tr class="odd" data-port="554"><td>C6C, C6CN, CTQ2C, LC3</td><td>FFMPEG</td><td>rtsp://</td><td>/mpeg4</td></tr><tr class="even" data-port="554"><td>C6C, C8PF, CS-C8PF, H7c, H9c</td><td>FFMPEG</td><td>rtsp://</td><td>/Streaming/channels/201</td></tr><tr class="odd" data-port="10554"><td>C6C, cs-c3tn, CS-C6N, cs-cv310, EZ360</td><td>FFMPEG</td><td>rtsp://</td><td>channel[CHANNEL]</td></tr><tr class="even" data-port="554"><td>C6CN, CS-DB1C</td><td>FFMPEG</td><td>rtsp://</td><td>//Channel/01</td></tr><tr class="odd" data-port="554"><td>C8C, CS-C6N-R101-1G2WF, CS-CTQ2C, CS-CV248, H8c</td><td>FFMPEG</td><td>rtsp://</td><td>/h.264_stream</td></tr><tr class="even" data-port="554"><td>C8W, CS-H8c</td><td>FFMPEG</td><td>rtsp://</td><td>/cam/realmonitor</td></tr><tr class="odd" data-port="554"><td>CS_CV310, CS-C3U-22ER, CS-C6N, CS-DB1, H8C</td><td>FFMPEG</td><td>rtsp://</td><td>/0</td></tr><tr class="even" data-port="554"><td>CS-C1C, CS-C6N, CS-C6N-R101-1G2WF, CS-C8C-A0-1F2WFL1(G05708394), CSCV310, CS-H8C, CTQ2C, H8c, LC3, TY1</td><td>FFMPEG</td><td>rtsp://</td><td>/h.265</td></tr><tr class="odd" data-port="554"><td>CS-C1T, CS-CV248, Mini O Plus</td><td>FFMPEG</td><td>rtsp://</td><td>/live/ch00_0</td></tr><tr class="even" data-port="554"><td>cs-c6n, cs-ty1</td><td>VLC</td><td>rtsp://</td><td>ch0_0.h264</td></tr><tr class="odd" data-port="554"><td>CS-C6N, H8c</td><td>FFMPEG</td><td>rtsp://</td><td>/h264</td></tr><tr class="even" data-port="554"><td>CS-C6W</td><td>FFMPEG</td><td>rtsp://</td><td>/ch1/main</td></tr><tr class="odd" data-port="554"><td>CS-C8W</td><td>FFMPEG</td><td>rtsp://</td><td>/ch0_0.264</td></tr><tr class="even" data-port="0"><td>CS-CV206, CS-CV206v2</td><td>FFMPEG</td><td>rtsp://</td><td></td></tr><tr class="odd" data-port="554"><td>CS-CV248-B1-32WVFMR</td><td>FFMPEG</td><td>rtsp://</td><td>/HighResolutionVideo</td></tr><tr class="even" data-port="8001"><td>cs-cv310</td><td>FFMPEG</td><td>rtsp://</td><td>/0/av0</td></tr><tr class="odd" data-port="554"><td>CS-H3, CS-H3-R100-1J3WKFL</td><td>FFMPEG</td><td>rtsp://</td><td>/h265</td></tr><tr class="even" data-port="554"><td>CS-H8c</td><td>FFMPEG</td><td>rtsp://</td><td>/Streaming/Channels/101?transportmode=unicast&amp;profile=Profile_2</td></tr><tr class="odd" data-port="554"><td>CS-H8c</td><td>FFMPEG</td><td>rtsp://</td><td>/Streaming/Channels/101?transportmode=unicast&amp;profile=Profile_1</td></tr><tr class="even" data-port="554"><td>CS-H8c-R100-1J4WKFL</td><td>FFMPEG</td><td>rtsp://</td><td>/Streaming/Channels/102</td></tr><tr class="odd" data-port="554"><td>CTQ3W</td><td>FFMPEG</td><td>rtsp://</td><td>/live_mpeg4.sdp</td></tr><tr class="even" data-port="554"><td>CTQ3W</td><td>FFMPEG</td><td>rtsp://</td><td>/live/h264_ulaw/HD720P</td></tr><tr class="odd" data-port="554"><td>CTQ3W</td><td>FFMPEG</td><td>rtsp://</td><td>/video.mp4</td></tr><tr class="even" data-port="554"><td>CTQ3W</td><td>FFMPEG</td><td>rtsp://</td><td>/cam1/mpeg4</td></tr><tr class="odd" data-port="554"><td>GK-200MP2B</td><td>FFMPEG</td><td>rtsp://</td><td>/av_stream/ch0</td></tr><tr class="even" data-port="554"><td>H8C</td><td>FFMPEG</td><td>rtsp://</td><td>/onvif/live/2</td></tr><tr class="odd" data-port="80"><td>LC1C</td><td>MJPEG</td><td>http://</td><td>/?action=stream</td></tr><tr class="even" data-port="554"><td>TY2</td><td>FFMPEG</td><td>rtsp://</td><td>/live1.264</td></tr><tr class="odd" data-port="554"><td>USB</td><td>FFMPEG</td><td>rtsp://</td><td>/cam1/h264</td></tr><tr class="even" data-port="554"><td>USB</td><td>FFMPEG</td><td>rtsp://</td><td>/cam0/h264</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="manPager">
+                <h6>Page</h6>
+                <span>1</span>
+            </div>
+            <div style="clear:left">
+                <p>
+                    <!--googleoff: index-->
+
+                    * iSpyConnect has no affiliation, connection, or association with Ezviz’s products. The connection details provided here are crowd sourced from the community and may be incomplete, inaccurate or out of date. We provide no guarantee or warranty that you will be able to connect to your cameras using these URLs.
+
+                    <br>
+                    <!--googleon: index-->
+                </p>
+            </div>
+            <p class="article_separator">&nbsp;</p>
+            <h5>Other makes starting with "E"</h5>
+            <table class="table">
+                <tbody><tr><th valign="top">E</th><td><a href="../camera/eagle-eye">Eagle Eye</a><a href="../camera/eagle-view">Eagle View</a><a href="../camera/eagle-vision">Eagle Vision</a><a href="../camera/eagleeye">Eagleeye</a><a href="../camera/eaglestar">Eaglestar</a><a href="../camera/eagleview">Eagleview</a><a href="../camera/eam">Eam</a><a href="../camera/eamo">Eamo</a><a href="../camera/eardatech">Eardatech</a><a href="../camera/east">East</a><a href="../camera/eastcam">Eastcam</a><a href="../camera/easternccc">Easternccc</a><a href="../camera/easterncctv">Easterncctv</a><a href="../camera/eastvision">Eastvision</a><a href="../camera/easy">Easy</a><a href="../camera/easy-ip">Easy Ip</a><a href="../camera/easy4ip">Easy4ip</a><a href="../camera/easycam">Easycam</a><a href="../camera/easycap">Easycap</a><a href="../camera/easyn">Easyn</a><a href="../camera/easyse">Easyse</a><a href="../camera/easyz">Easyz</a><a href="../camera/eazydv">Eazydv</a><a href="../camera/ebode">Ebode</a><a href="../camera/ebw">Ebw</a><a href="../camera/ec101">Ec101</a><a href="../camera/ecam">Ecam</a><a href="../camera/echo-star">Echo Star</a><a href="../camera/eclipse">Eclipse</a><a href="../camera/eco">Eco</a><a href="../camera/ecoline">Ecoline</a><a href="../camera/economato">Economato</a><a href="../camera/edge">Edge</a><a href="../camera/edimax">Edimax</a><a href="../camera/edison">Edison</a><a href="../camera/ednet">Ednet</a><a href="../camera/edss">Edss</a><a href="../camera/eero">Eero</a><a href="../camera/eescam">Eescam</a><a href="../camera/eesee">Eesee</a><a href="../camera/eet">Eet</a><a href="../camera/ego">Ego</a><a href="../camera/egpis">Egpis</a><a href="../camera/eguard">Eguard</a><a href="../camera/ehea">Ehea</a><a href="../camera/eickhoff">Eickhoff</a><a href="../camera/eigeek">Eigeek</a><a href="../camera/eigen">Eigen</a><a href="../camera/eight">Eight</a><a href="../camera/eighteen">Eighteen</a><a href="../camera/eingangscamera">Eingangscamera</a><a href="../camera/einnov">Einnov</a><a href="../camera/eip">Eip</a><a href="../camera/eitea">Eitea</a><a href="../camera/eken">Eken</a><a href="../camera/e-landing">E-landing</a><a href="../camera/elcom">Elcom</a><a href="../camera/ele-technology">Ele Technology</a><a href="../camera/elec">Elec</a><a href="../camera/elecom">Elecom</a><a href="../camera/electriq">Electriq</a><a href="../camera/electrodh">Electrodh</a><a href="../camera/elegiant">Elegiant</a><a href="../camera/elex">Elex</a><a href="../camera/elinksmart-ip-camera">Elinksmart Ip Camera</a><a href="../camera/elinz">Elinz</a><a href="../camera/elisa">Elisa</a><a href="../camera/elite">Elite</a><a href="../camera/elmo">Elmo</a><a href="../camera/e-lock">E-lock</a><a href="../camera/elp">Elp</a><a href="../camera/elp201">Elp201</a><a href="../camera/elro">Elro</a><a href="../camera/elsys">Elsys</a><a href="../camera/elver">Elver</a><a href="../camera/ematic">Ematic</a><a href="../camera/emax">Emax</a><a href="../camera/embedded-net-dvr">Embedded Net Dvr</a><a href="../camera/emerson">Emerson</a><a href="../camera/eminent">Eminent</a><a href="../camera/empire">Empire</a><a href="../camera/emstone">Emstone</a><a href="../camera/encoder10">Encoder10</a><a href="../camera/encore">Encore</a><a href="../camera/encore-electronics">Encore Electronics</a><a href="../camera/encwi-g1">Encwi-g1</a><a href="../camera/endoscope">Endoscope</a><a href="../camera/endroid">Endroid</a><a href="../camera/endurance">Endurance</a><a href="../camera/eneo">Eneo</a><a href="../camera/engeninus">Engeninus</a><a href="../camera/engenius">Engenius</a><a href="../camera/enio-bell">Enio Bell</a><a href="../camera/ens-security">Ens Security</a><a href="../camera/enscam">Enscam</a><a href="../camera/ensidio">Ensidio</a><a href="../camera/enster">Enster</a><a href="../camera/enter">Enter</a><a href="../camera/enviewer">Enviewer</a><a href="../camera/envio">Envio</a><a href="../camera/envision">Envision</a><a href="../camera/enxun">Enxun</a><a href="../camera/eonboom">Eonboom</a><a href="../camera/eopen">Eopen</a><a href="../camera/eos-vision">Eos Vision</a><a href="../camera/epcam2">Epcam2</a><a href="../camera/epexis">Epexis</a><a href="../camera/epges">Epges</a><a href="../camera/ephone">Ephone</a><a href="../camera/epicamera">Epicamera</a><a href="../camera/epine">Epine</a><a href="../camera/epson">Epson</a><a href="../camera/ernitec">Ernitec</a><a href="../camera/esc">Esc</a><a href="../camera/escam">Escam</a><a href="../camera/esecure">Esecure</a><a href="../camera/esee">Esee</a><a href="../camera/esense">Esense</a><a href="../camera/esky">Esky</a><a href="../camera/esmart">Esmart</a><a href="../camera/esp">Esp</a><a href="../camera/esp32">Esp32</a><a href="../camera/espressif">Espressif</a><a href="../camera/esprit-enhanced">Esprit Enhanced</a><a href="../camera/essay">Essay</a><a href="../camera/essfly">Essfly</a><a href="../camera/est">Est</a><a href="../camera/estcctv">Estcctv</a><a href="../camera/esternal">Esternal</a><a href="../camera/esunstar">Esunstar</a><a href="../camera/esypop">Esypop</a><a href="../camera/etc">Etc</a><a href="../camera/etcam">Etcam</a><a href="../camera/e-tech">E-tech</a><a href="../camera/etevision">Etevision</a><a href="../camera/e-think">E-think</a><a href="../camera/etn">Etn</a><a href="../camera/etrovision">Etrovision</a><a href="../camera/etupiha">Etupiha</a><a href="../camera/eu3c">Eu3c</a><a href="../camera/eufy">Eufy</a><a href="../camera/eule">Eule</a><a href="../camera/eura-tech">Eura-tech</a><a href="../camera/eurolook">Eurolook</a><a href="../camera/europ-camera">Europ-camera</a><a href="../camera/eurotek">Eurotek</a><a href="../camera/eurovideo">Eurovideo</a><a href="../camera/eusso">Eusso</a><a href="../camera/ev3c">Ev3c</a><a href="../camera/everest">Everest</a><a href="../camera/everfocus">Everfocus</a><a href="../camera/eversecu">Eversecu</a><a href="../camera/eversun">Eversun</a><a href="../camera/evgeni">Evgeni</a><a href="../camera/evidence">Evidence</a><a href="../camera/e-view">E-view</a><a href="../camera/evo3d">Evo3d</a><a href="../camera/evocam">Evocam</a><a href="../camera/evolution">Evolution</a><a href="../camera/evolveo">Evolveo</a><a href="../camera/evolylcam">Evolylcam</a><a href="../camera/evonet">Evonet</a><a href="../camera/evonet-c-vd320ir">Evonet-c-vd320ir</a><a href="../camera/evviz">Evviz</a><a href="../camera/ewan-ko">Ewan Ko</a><a href="../camera/ewelink">Ewelink</a><a href="../camera/ews1025">Ews1025</a><a href="../camera/exache">Exache</a><a href="../camera/exacqvision">Exacqvision</a><a href="../camera/exceed">Exceed</a><a href="../camera/excelvan">Excelvan</a><a href="../camera/exelon">Exelon</a><a href="../camera/exom">Exom</a><a href="../camera/exotic-life">Exotic Life</a><a href="../camera/expert">Expert</a><a href="../camera/export-import-global">Export Import Global</a><a href="../camera/expose">Expose</a><a href="../camera/extel">Extel</a><a href="../camera/extend-lan">Extend Lan</a><a href="../camera/extreme">Extreme</a><a href="../camera/extron">Extron</a><a href="../camera/eye-360">Eye 360</a><a href="../camera/eye-sight">Eye Sight</a><a href="../camera/eye-vision">Eye Vision</a><a href="../camera/eye01w">Eye01w</a><a href="../camera/eyecam">Eyecam</a><a href="../camera/eyecloud">Eyecloud</a><a href="../camera/eyeguard">Eyeguard</a><a href="../camera/eyeipcam">Eyeipcam</a><a href="../camera/eyemax">Eyemax</a><a href="../camera/eyenimal">Eyenimal</a><a href="../camera/eyenix">Eyenix</a><a href="../camera/eyeon">Eyeon</a><a href="../camera/eyeonet">Eyeonet</a><a href="../camera/eyeplus">Eyeplus</a><a href="../camera/eyerely">Eyerely</a><a href="../camera/eyesec">Eyesec</a><a href="../camera/eyesight">Eyesight</a><a href="../camera/eyesonic">Eyesonic</a><a href="../camera/eyespy">Eyespy</a><a href="../camera/eyespy247">Eyespy247</a><a href="../camera/eyes-sys">Eyes-sys</a><a href="../camera/eyesurv">Eyesurv</a><a href="../camera/eyetech">Eyetech</a><a href="../camera/eyetelligent">Eyetelligent</a><a href="../camera/eyevision">Eyevision</a><a href="../camera/eyewatch">Eyewatch</a><a href="../camera/eyseo">Eyseo</a><a href="../camera/eyu">Eyu</a><a href="../camera/ezbiz">Ezbiz</a><a href="../camera/ezcam">Ezcam</a><a href="../camera/ez-ip">Ez-ip</a><a href="../camera/eziviewcctv">Eziviewcctv</a><a href="../camera/eziviz">Eziviz</a><a href="../camera/ezlink">Ezlink</a><a href="../camera/ezviz">Ezviz</a><a href="../camera/ez-watching">Ez-watching<!--</td--></a></td></tr>
+                </tbody></table>
+            <p><a role="button" class="btn btn-primary" href="/cameras">More Sources</a></p>
+            <p>
+                <!--googleoff: index-->
+
+                * iSpyConnect has no affiliation, connection, or association with Ezviz’s products. The connection details provided here are crowd sourced from the community and may be incomplete, inaccurate or out of date. We provide no guarantee or warranty that you will be able to connect to your cameras using these URLs.
+
+                <!--googleon: index-->
+            </p>
+
+        </div>
+    </section>
+</main>
+<footer class="py-2 py-md-3 mt-2 bg-gradient text-dark">
+    <div class="container-xxl">
+        <p class="float-right">
+            <a href="#">Back to top</a>
+        </p>
+
+        <p>© Copyright 2011-2025 iSpyConnect.com - <a href="/privacy">Privacy Policy</a> - <a href="/terms">Terms of Service</a> - <a href="/status">Service Status</a> - <a href="/legal">Legal Information</a> - <a href="/contact">FAQ/ Contact Us</a></p>
+        <p>New User? <a href="/">Visit the homepage</a> or read our <a href="/docs/ispy/">iSpy Userguide</a> or our <a href="/docs/agent/">Agent DVR Userguide</a></p>
+
+    </div>
+</footer>
+<!-- Modal Structure -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchModalLabel">Search</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Search Form -->
+                <form class="mb-3 mx-auto" method="GET" action="/search" id="frmSearch">
+                    <div class="mb-3">
+                        <input type="text" class="form-control w-100" name="q" aria-label="Search" placeholder="Search">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('frmSearch').submit();" aria-label="Search">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-lg" id="genURL" tabindex="-1" aria-labelledby="important-msg-label" style="z-index: 9999; display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="important-msg-label">
+                    Ezviz IP Camera Connection Wizard
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" method="POST">
+                    <div class="form-group row border-top">
+                        <label class="control-label col-sm-2"> </label>
+                        <div class="col-sm-10 p-2">
+                            Tip: To add this camera into <a href="/download">Agent DVR</a>, choose:
+                            <b id="lblConnection">Network Camera</b></div>
+                    </div>
+
+                    <div class="form-group row p-1">
+                        <label class="control-label col-sm-2" for="txtIPAddress">IP</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtIPAddress" value="192.168.1.20">
+                        </div>
+                    </div>
+                    <div class="form-group row p-1">
+                        <label class="control-label col-sm-2" for="txtCamUser">Username</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtCamUser" value="admin">
+                        </div>
+                    </div>
+                    <div class="form-group row p-1">
+                        <label class="control-label col-sm-2" for="txtCamPass">Password</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtCamPass" value="admin"><br>
+                            Note: Use your camera credentials, not your ispyconnect login. These details are only used locally to generate your URL and are not sent to our servers.
+                        </div>
+                    </div>
+                    <div class="form-group row p-1">
+                        <label class="control-label col-sm-2" for="txtChannel">Channel</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="txtChannel" value="0">
+                            This is rarely used unless you have a DVR
+                        </div>
+                    </div>
+                    <div id="result" class="alert alert-info mt-2" style="display: none; overflow-wrap: break-word;"><b id="camURL">http://admin:EUTOWAt71!@192.168.1.65:80/?action=stream</b><br><button type="button" id="btnCopy" onclick="CopyToClipboard()" class="btn btn-primary"><i class="fa fa-copy"></i></button></div>
+                    <div id="error" class="alert alert-danger" style="display: none;">Invalid IP address</div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSend" onclick="GenerateURL()">Generate URL</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".odd, .even").forEach(item => {
+            item.onclick = function (o) {
+                var d = o.currentTarget.children;
+                var port = o.currentTarget.getAttribute("data-port");
+                popURL(d[1].innerText, d[2].innerText, port, d[3].innerText);
+            };
+        });
+    });
+</script>
+
+
+</body></html>

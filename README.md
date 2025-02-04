@@ -47,12 +47,28 @@ This is URL request for image, where all parameters are in URL, but you can prov
 
 ### FFmpeg
 If you want to access snapshots on RTSP cameras, you can use ffmpeg. You need to install ffmpeg on your system:
-- Windows has precompiled ffmpeg and there is no need to download anything. (Windows version is taken from here: https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z) 
+- Windows has precompiled ffmpeg and there is no need to download anything. (Windows version is taken from here: https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z)
 - Linux: `sudo apt-get install ffmpeg -y`
+
+How to update the windows version of `ffmpeg`:
+- Download file https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z
+- Extract `bin/ffmpeg.exe`
+- Rename `ffmpeg.exe` to `win-ffmpeg.exe`
+- Zip `win-ffmpeg.exe` to `win-ffmpeg.zip`
+- Place `win-ffmpeg.zip` in the root of this repository
+- Execute `win-ffmpeg.exe --version` to get the version and save it into `main.ts` `WIN_FFMPEG_VERSION` constant (like `2025-02-02-git-957eb2323a-full_build-www.gyan.dev`)
 
 Here is an example of how to add Reolink E1:
 
 ![rtsp](img/rtsp.png)
+
+### Ezviz - How to re-enable RTSP for EZVIZ cameras
+For some reason, EZVIZ decided to disable RTSP for their cameras:
+- Open EZVIZ App and go to: Profile / Settings / Lan Live View
+- Start scanning and then Select Camera:
+- Login with your camera password (the default password is on the camera sticker)
+- Press the Settings icon and select Local Service Settings
+- Enable RTSP
 
 ## How to add a new camera (For developers)
 To add a new camera, you must create a Pull Request on GitHub with the following changes:
@@ -71,6 +87,10 @@ To add a new camera, you must create a Pull Request on GitHub with the following
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (@GermanBluefox) Completely rewritten in TypeScript
+* (@GermanBluefox) Added Ezviz cameras
+
 ### 2.1.2 (2024-07-15)
 * (bluefox) Updated packages
 

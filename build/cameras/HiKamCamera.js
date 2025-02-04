@@ -8,8 +8,8 @@ const GenericRtspCamera_1 = __importDefault(require("./GenericRtspCamera"));
 // https://support.hikam.de/support/solutions/articles/16000070656-zugriff-auf-kameras-der-2-generation-via-onvif-f%C3%BCr-s6-q8-a7-2-generation-
 class HiKamCamera extends GenericRtspCamera_1.default {
     config;
-    constructor(adapter, config) {
-        super(adapter, config);
+    constructor(adapter, config, ffmpegPath) {
+        super(adapter, config, ffmpegPath);
         this.config = config;
     }
     async init() {

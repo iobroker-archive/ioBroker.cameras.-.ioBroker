@@ -19,8 +19,10 @@ class GenericRtspCamera extends GenericCamera_1.default {
     proc = null;
     isRtsp = true;
     settings = null;
-    constructor(adapter, config) {
+    ffmpegPath;
+    constructor(adapter, config, ffmpegPath) {
         super(adapter, config);
+        this.ffmpegPath = ffmpegPath;
         //     Fill settings
         //     fill decodedPassword
         //     this.decodedPassword = this.adapter.decrypt(this.config.password);
@@ -59,7 +61,7 @@ class GenericRtspCamera extends GenericCamera_1.default {
             };
         }
         const outputFileName = node_path_1.default.normalize(`${this.adapter.config.tempPath}/${this.settings.ip.replace(/[.:]/g, '_')}.jpg`);
-        this.runningRequest = (0, rtspCommon_1.getRtspSnapshot)(this.settings, outputFileName, this.adapter.config.ffmpegPath, this.decodedPassword, this.config.timeout, this.adapter.log).then(async (body) => {
+        this.runningRequest = (0, rtspCommon_1.getRtspSnapshot)(this.settings, outputFileName, this.ffmpegPath, this.decodedPassword, this.config.timeout, this.adapter.log).then(async (body) => {
             this.runningRequest = null;
             this.adapter.log.debug(`Snapshot from ${this.settings.ip}. Done!`);
             if (!this.ratio) {
@@ -107,7 +109,7 @@ class GenericRtspCamera extends GenericCamera_1.default {
             await this.adapter.setState(`${this.config.name}.running`, true, true);
             this.adapter.log.debug(`Starting streaming for ${this.config.name} (${url.replace(/:[^@]+@/, ':****@')}), width: ${this.width}`);
             this.proc = (0, fluent_ffmpeg_1.default)(url)
-                .setFfmpegPath(this.adapter.config.ffmpegPath)
+                .setFfmpegPath(this.ffmpegPath)
                 // .addInputOption('-preset', 'ultrafast')
                 .addInputOption('-rtsp_transport', 'tcp')
                 .addInputOption('-re')
@@ -118,7 +120,7 @@ class GenericRtspCamera extends GenericCamera_1.default {
                 // first try to find the best scale
                 if (!this.ratio) {
                     const outputFileName = node_path_1.default.normalize(`${this.adapter.config.tempPath}/${this.settings.ip.replace(/[.:]/g, '_')}.jpg`);
-                    const body = await (0, rtspCommon_1.getRtspSnapshot)(this.settings, this.adapter.config.ffmpegPath, outputFileName, this.decodedPassword, this.config.timeout, this.adapter.log);
+                    const body = await (0, rtspCommon_1.getRtspSnapshot)(this.settings, this.ffmpegPath, outputFileName, this.decodedPassword, this.config.timeout, this.adapter.log);
                     // try to get width and height
                     const image = (0, sharp_1.default)(body);
                     const metadata = await image.metadata();

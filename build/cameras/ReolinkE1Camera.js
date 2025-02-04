@@ -7,8 +7,8 @@ const GenericRtspCamera_1 = __importDefault(require("./GenericRtspCamera"));
 // documentation https://reolink.com/wp-content/uploads/2017/01/Reolink-CGI-command-v1.61.pdf
 class ReolinkE1Camera extends GenericRtspCamera_1.default {
     config;
-    constructor(adapter, config) {
-        super(adapter, config);
+    constructor(adapter, config, ffmpegPath) {
+        super(adapter, config, ffmpegPath);
         this.config = config;
     }
     async init() {

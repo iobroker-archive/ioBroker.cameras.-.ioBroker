@@ -6,8 +6,8 @@ import type { CameraConfigAny, CameraConfigReolink } from '../types';
 export default class ReolinkE1Camera extends GenericRtspCamera {
     protected config: CameraConfigReolink;
 
-    constructor(adapter: ioBroker.Adapter, config: CameraConfigAny) {
-        super(adapter, config);
+    constructor(adapter: ioBroker.Adapter, config: CameraConfigAny, ffmpegPath: string) {
+        super(adapter, config, ffmpegPath);
         this.config = config as CameraConfigReolink;
     }
 

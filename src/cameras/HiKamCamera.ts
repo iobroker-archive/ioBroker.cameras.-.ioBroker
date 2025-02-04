@@ -7,8 +7,8 @@ import type { CameraConfigAny, CameraConfigHiKam } from '../types';
 export default class HiKamCamera extends GenericRtspCamera {
     protected config: CameraConfigHiKam;
 
-    constructor(adapter: ioBroker.Adapter, config: CameraConfigAny) {
-        super(adapter, config);
+    constructor(adapter: ioBroker.Adapter, config: CameraConfigAny, ffmpegPath: string) {
+        super(adapter, config, ffmpegPath);
         this.config = config as CameraConfigHiKam;
     }
 

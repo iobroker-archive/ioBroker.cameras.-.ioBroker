@@ -42,7 +42,8 @@ import RTSPImageConfig from '../Types/RTSPImage';
 import RTSPReolinkE1Config from '../Types/RTSPReolinkE1';
 import RTSPEufyConfig from '../Types/RTSPEufy';
 import RTSPHiKamConfig from '../Types/RTSPHiKam';
-import type { CamerasAdapterConfig, CameraConfig, CameraConfigAny, CameraType } from '../types';
+import UniversalConfig from '../Types/Universal';
+import type { CamerasAdapterConfig, CameraConfig, CameraConfigAny, CameraType, CameraConfigUniversal } from '../types';
 import type { ConfigProps } from '../Types/ConfigGeneric';
 // eslint-disable-next-line @/no-duplicate-imports,no-duplicate-imports
 import type ConfigGeneric from '../Types/ConfigGeneric';
@@ -51,13 +52,22 @@ interface IConfigGeneric extends ConfigGeneric<any> {
     readonly isRtsp: boolean;
 }
 
-const TYPES: Record<CameraType, { Config: IConfigGeneric; name: string; translated?: boolean; rtsp?: boolean }> = {
+const TYPES: Record<
+    CameraType,
+    { Config: IConfigGeneric; name: string; translated?: boolean; rtsp?: boolean; icon?: string; hideName?: boolean }
+> = {
     url: { Config: URLImage as unknown as IConfigGeneric, name: 'URL' },
     urlBasicAuth: { Config: URLBasicAuthImage as unknown as IConfigGeneric, name: 'URL with basic auth' },
     rtsp: { Config: RTSPImageConfig as unknown as IConfigGeneric, name: 'RTSP Snapshot' },
     reolinkE1: { Config: RTSPReolinkE1Config as unknown as IConfigGeneric, name: 'Reolink E1 Snapshot' },
     eufy: { Config: RTSPEufyConfig as unknown as IConfigGeneric, name: 'Eufy Security' },
     hikam: { Config: RTSPHiKamConfig as unknown as IConfigGeneric, name: 'HiKam / WiWiCam' },
+    universal: {
+        Config: UniversalConfig as unknown as IConfigGeneric,
+        name: 'ezviz',
+        icon: 'ezviz.svg',
+        hideName: true,
+    },
 };
 
 const styles: Record<string, any> = {
@@ -121,9 +131,6 @@ const styles: Record<string, any> = {
         display: 'inline-block',
         width: 40,
         marginLeft: 10,
-    },
-    divConfig: {
-        verticalAlign: 'top',
     },
     divTestCam: {
         flex: 1,
@@ -368,7 +375,7 @@ export default class Cameras extends Component<CamerasProps, CamerasState> {
 
                 this.setState({ message: error, requesting: false });
             } else {
-                this.setState({ testImg: result.body, requesting: false });
+                this.setState({ testImg: result.body, requesting: false, message: '' });
             }
         });
     }
@@ -378,6 +385,11 @@ export default class Cameras extends Component<CamerasProps, CamerasState> {
         // apply changes
         settings = Object.assign(oldSettings, settings);
         const editedSettings = JSON.stringify(settings);
+
+        // custom solution for universal camera
+        if (settings.type === 'universal') {
+            settings.rtsp = (settings as CameraConfigUniversal).urlProtocol === 'rtsp://';
+        }
 
         if (this.state.editedSettingsOld === editedSettings) {
             this.setState({ editChanged: false, editedSettings: null });
@@ -403,8 +415,8 @@ export default class Cameras extends Component<CamerasProps, CamerasState> {
                         {I18n.t('Edit camera %s [%s]', cam.name, cam.type)} - {cam.desc}
                     </DialogTitle>
                     <DialogContent>
-                        <div style={{ display: 'flex', gap: 10 }}>
-                            <div style={styles.divConfig}>
+                        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <Config
                                     native={this.props.native}
                                     socket={this.props.socket}
@@ -419,7 +431,6 @@ export default class Cameras extends Component<CamerasProps, CamerasState> {
                                         this.props.decrypt(value, cb)
                                     }
                                 />
-                                <br />
                                 <TextField
                                     variant="standard"
                                     style={styles.username}
@@ -432,7 +443,6 @@ export default class Cameras extends Component<CamerasProps, CamerasState> {
                                         this.onCameraSettingsChanged(settings);
                                     }}
                                 />
-                                <br />
                                 <TextField
                                     variant="standard"
                                     style={styles.username}
@@ -445,7 +455,6 @@ export default class Cameras extends Component<CamerasProps, CamerasState> {
                                         this.onCameraSettingsChanged(settings);
                                     }}
                                 />
-                                <br />
                                 <FormControlLabel
                                     label={I18n.t('Add time to screenshot')}
                                     control={
@@ -459,10 +468,9 @@ export default class Cameras extends Component<CamerasProps, CamerasState> {
                                         />
                                     }
                                 />
-                                <br />
                                 <TextField
                                     variant="standard"
-                                    style={styles.username}
+                                    fullWidth
                                     label={I18n.t('Add title')}
                                     value={cam.title === undefined ? '' : cam.title}
                                     onChange={e => {
@@ -471,7 +479,7 @@ export default class Cameras extends Component<CamerasProps, CamerasState> {
                                         this.onCameraSettingsChanged(settings);
                                     }}
                                 />
-                                <div style={styles.sampleUrl}>
+                                {/*<div style={styles.sampleUrl}>
                                     {I18n.t('Local URL')}
                                     :&nbsp;
                                     <a
@@ -483,7 +491,7 @@ export default class Cameras extends Component<CamerasProps, CamerasState> {
                                         URL: http://{this.props.native.bind}:{this.props.native.port}/{cam.name}?key=
                                         {this.props.native.key}
                                     </a>
-                                </div>
+                                </div>*/}
                                 <div style={styles.sampleUrl}>
                                     {I18n.t('Web URL')}
                                     :&nbsp;
@@ -732,17 +740,42 @@ export default class Cameras extends Component<CamerasProps, CamerasState> {
                                         // @ts-expect-error try to keep the ip address
                                         ip: (camera as any).ip,
                                         rtsp: !!TYPES[e.target.value as CameraType].rtsp,
+                                        manufacturer: TYPES[e.target.value as CameraType].name,
                                     };
                                     this.props.onChange('cameras', cameras);
                                 }}
+                                renderValue={type => (
+                                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                                        {TYPES[type].icon ? (
+                                            <img
+                                                src={`./data/${TYPES[type].icon}`}
+                                                style={{ height: 20, width: 'auto' }}
+                                                alt={type}
+                                            />
+                                        ) : null}
+                                        {TYPES[type].icon && TYPES[type].hideName ? null : (
+                                            <div>{TYPES[type].name || type}</div>
+                                        )}
+                                    </div>
+                                )}
                             >
                                 {Object.keys(TYPES).map(
                                     (type: CameraType): React.JSX.Element => (
                                         <MenuItem
                                             key={type}
                                             value={type}
+                                            style={{ display: 'flex', gap: 8, alignItems: 'center' }}
                                         >
-                                            {TYPES[type].name || type}
+                                            {TYPES[type].icon ? (
+                                                <img
+                                                    src={`./data/${TYPES[type].icon}`}
+                                                    style={{ height: 20, width: 'auto' }}
+                                                    alt={type}
+                                                />
+                                            ) : null}
+                                            {TYPES[type].icon && TYPES[type].hideName ? null : (
+                                                <div>{TYPES[type].name || type}</div>
+                                            )}
                                         </MenuItem>
                                     ),
                                 )}
@@ -775,9 +808,7 @@ export default class Cameras extends Component<CamerasProps, CamerasState> {
                 >
                     <IconAdd />
                 </Fab>
-                {this.props.native.cameras
-                    ? this.props.native.cameras.map((cam, i) => this.renderCamera(cam, i))
-                    : null}
+                {this.props.native.cameras?.map((cam, i) => this.renderCamera(cam, i)) || null}
                 {this.renderConfigDialog()}
                 {this.renderMessage()}
             </div>

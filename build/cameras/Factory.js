@@ -10,7 +10,8 @@ const UrlBasicAuthCamera_1 = __importDefault(require("./UrlBasicAuthCamera"));
 const RtspCamera_1 = __importDefault(require("./RtspCamera"));
 const ReolinkE1Camera_1 = __importDefault(require("./ReolinkE1Camera"));
 const EufyCamera_1 = __importDefault(require("./EufyCamera"));
-async function createCamera(adapter, config, streamSubscribes) {
+const UniversalCamera_1 = __importDefault(require("./UniversalCamera"));
+async function createCamera(adapter, config, streamSubscribes, ffmpegPath) {
     let camera;
     switch (config.type) {
         case 'url':
@@ -20,16 +21,19 @@ async function createCamera(adapter, config, streamSubscribes) {
             camera = new UrlBasicAuthCamera_1.default(adapter, config);
             break;
         case 'hikam':
-            camera = new HiKamCamera_1.default(adapter, config);
+            camera = new HiKamCamera_1.default(adapter, config, ffmpegPath);
             break;
         case 'rtsp':
-            camera = new RtspCamera_1.default(adapter, config);
+            camera = new RtspCamera_1.default(adapter, config, ffmpegPath);
             break;
         case 'reolinkE1':
-            camera = new ReolinkE1Camera_1.default(adapter, config);
+            camera = new ReolinkE1Camera_1.default(adapter, config, ffmpegPath);
             break;
         case 'eufy':
-            camera = new EufyCamera_1.default(adapter, config);
+            camera = new EufyCamera_1.default(adapter, config, ffmpegPath);
+            break;
+        case 'universal':
+            camera = new UniversalCamera_1.default(adapter, config, ffmpegPath);
             break;
     }
     if (!camera) {

@@ -7,6 +7,7 @@ import moment from 'moment';
 import decompress from 'decompress';
 import type {
     CameraConfigAny,
+    CameraConfigRtsp,
     CameraName,
     CameraRequestInternal,
     CamerasAdapterConfig,
@@ -20,7 +21,9 @@ import type {
     UserInterfaceUnsubscribeInfo,
 } from '@iobroker/types/build/types';
 import createCamera from './cameras/Factory';
-import { executeFFmpeg } from './cameras/rtspCommon';
+import { findFFmpegPath, getFFmpegVersion } from './cameras/rtspCommon';
+
+const WIN_FFMPEG_VERSION = '2025-02-02-git-957eb2323a-full_build-www.gyan.dev';
 
 type SubscribeData = {
     type: string;
@@ -44,6 +47,7 @@ export class CamerasAdapter extends Adapter {
     private allowIPs: true | string[] = true;
     private cameras: Record<CameraName, GenericCamera> = {};
     private bForce: { [ip: string]: number } = {};
+    private ffmpegPath = '';
 
     public constructor(options: Partial<AdapterOptions> = {}) {
         super({
@@ -109,110 +113,13 @@ export class CamerasAdapter extends Adapter {
         }
     }
 
-    async main(): Promise<void> {
-        this.streamSubscribes = [];
-        this.camerasConfig = this.config as CamerasAdapterConfig;
-
-        if (
-            !this.camerasConfig.ffmpegPath &&
-            process.platform === 'win32' &&
-            !existsSync(`${__dirname}/win-ffmpeg.exe`)
-        ) {
-            this.log.info('Decompress ffmpeg.exe...');
-            await decompress(`${__dirname}/win-ffmpeg.zip`, __dirname);
-        }
-
-        // read secret key
-        const systemConfig = await this.getForeignObjectAsync('system.config');
-        // store system secret
-        this.lang = this.camerasConfig.language || systemConfig?.common.language || 'en';
-
-        const promises: Promise<void>[] = [];
-
-        this.camerasConfig.tempPath = this.camerasConfig.tempPath || `${__dirname}/snapshots`;
-        this.camerasConfig.defaultCacheTimeout = parseInt(this.camerasConfig.defaultCacheTimeout as string, 10) || 0;
-
-        if (!existsSync(this.camerasConfig.ffmpegPath) && !existsSync(`${this.camerasConfig.ffmpegPath}.exe`)) {
-            if (process.platform === 'win32') {
-                this.camerasConfig.ffmpegPath = `${__dirname}/win-ffmpeg.exe`;
-            } else {
-                this.log.error(`Cannot find ffmpeg in "${this.camerasConfig.ffmpegPath}"`);
-            }
-        }
-
-        try {
-            if (!existsSync(this.camerasConfig.tempPath)) {
-                mkdirSync(this.camerasConfig.tempPath);
-                this.log.debug(`Create snapshots directory: ${normalize(this.camerasConfig.tempPath)}`);
-            }
-        } catch (e) {
-            this.log.error(`Cannot create snapshots directory: ${e}`);
-        }
-
-        this.camerasConfig.cameras = this.camerasConfig.cameras.filter(cam => cam.enabled !== false);
-
-        // init all required camera providers
-        this.camerasConfig.cameras.forEach(item => {
-            if (item?.type) {
-                if (item.cacheTimeout === undefined || item.cacheTimeout === null || item.cacheTimeout === '') {
-                    item.cacheTimeout = this.camerasConfig.defaultCacheTimeout;
-                } else {
-                    item.cacheTimeout = parseInt(item.cacheTimeout as string, 10) || 0;
-                }
-
-                try {
-                    promises.push(
-                        createCamera(this, item, this.streamSubscribes)
-                            .then(camera => {
-                                this.cameras[camera.getName()] = camera;
-                            })
-                            .catch(e => this.log.error(`Cannot init camera ${item.name}: ${e && e.toString()}`)),
-                    );
-                } catch (e) {
-                    this.log.error(`Cannot load "${item.type}": ${e}`);
-                }
-            }
-        });
-
-        if (typeof this.camerasConfig.allowIPs === 'string') {
-            this.allowIPs = this.camerasConfig.allowIPs
-                .split(/,;/)
-                .map(i => i.trim())
-                .filter(i => i);
-
-            if (this.allowIPs.find(i => i === '*')) {
-                this.allowIPs = true;
-            }
-        }
-
-        this.bForce = {};
-
-        // garbage collector
-        this.bForceInterval = setInterval(() => {
-            const now = Date.now();
-            Object.keys(this.bForce).forEach(ip => {
-                if (now - this.bForce[ip] > 5000) {
-                    delete this.bForce[ip];
-                }
-            });
-        }, 30000);
-
-        this.subscribeStates('*');
-
-        await this.syncData();
-        await Promise.all(promises);
-        await this.syncConfig();
-        await this.fillFiles();
-        this.startWebServer();
-    }
-
     async testCamera(item: CameraRequestInternal): Promise<ProcessData | null> {
         if (item?.type) {
             let result: ProcessData | null = null;
             let tempCamera: GenericCamera;
             // load camera module
             try {
-                tempCamera = await createCamera(this, item as CameraConfigAny, this.streamSubscribes);
+                tempCamera = await createCamera(this, item as CameraConfigAny, this.streamSubscribes, this.ffmpegPath);
             } catch (e) {
                 this.log.error(`Cannot load "${item.type}": ${e}`);
                 throw new Error(`Cannot load "${item.type}"`);
@@ -265,7 +172,7 @@ export class CamerasAdapter extends Adapter {
                 return this.cache[cam.name].data.body;
             }
 
-            let data = await this.cameras[cam.type].process();
+            let data = await this.cameras[cam.name].process();
             if (data) {
                 data = await this.resizeImage(data, params.w, params.h);
                 data = await this.rotateImage(data, params.angle);
@@ -436,23 +343,12 @@ export class CamerasAdapter extends Adapter {
 
             case 'ffmpeg': {
                 if (obj.callback && obj.message) {
-                    executeFFmpeg(['-version'], obj.message.path)
-                        .then((data: string): void => {
-                            if (data) {
-                                const result = data.split('\n')[0];
-                                const version = result.match(/version\s+([-\w.]+)/i);
-                                if (version) {
-                                    this.sendTo(obj.from, obj.command, { version: version[1] }, obj.callback);
-                                } else {
-                                    this.sendTo(obj.from, obj.command, { version: result }, obj.callback);
-                                }
-                            } else {
-                                this.sendTo(obj.from, obj.command, { error: 'No answer' }, obj.callback);
-                            }
-                        })
-                        .catch((error: unknown) =>
-                            this.sendTo(obj.from, obj.command, { error: (error as Error).toString() }, obj.callback),
-                        );
+                    try {
+                        const version = getFFmpegVersion(obj.message.path, this.log);
+                        this.sendTo(obj.from, obj.command, { version: version || 'No answer' }, obj.callback);
+                    } catch (error) {
+                        this.sendTo(obj.from, obj.command, { error: (error as Error).toString() }, obj.callback);
+                    }
                 }
                 break;
             }
@@ -465,7 +361,7 @@ export class CamerasAdapter extends Adapter {
             if (item?.type && this.cameras[item.name]) {
                 try {
                     promises.push(
-                        this.cameras[item.type]
+                        this.cameras[item.name]
                             .destroy()
                             .catch(e => this.log.error(`Cannot unload "${item.type}": ${e}`)),
                     );
@@ -779,6 +675,118 @@ export class CamerasAdapter extends Adapter {
                 }
             }
         }
+    }
+
+    async main(): Promise<void> {
+        this.streamSubscribes = [];
+        this.camerasConfig = this.config as CamerasAdapterConfig;
+
+        // read secret key
+        const systemConfig = await this.getForeignObjectAsync('system.config');
+        // store system secret
+        this.lang = this.camerasConfig.language || systemConfig?.common.language || 'en';
+
+        const promises: Promise<void>[] = [];
+
+        this.camerasConfig.tempPath = normalize(this.camerasConfig.tempPath || `${__dirname}/../snapshots`).replace(
+            /\\/g,
+            '/',
+        );
+        this.camerasConfig.defaultCacheTimeout = parseInt(this.camerasConfig.defaultCacheTimeout as string, 10) || 0;
+
+        const isAnyRtsp = this.camerasConfig.cameras.find(
+            it => it.enabled !== false && (it as CameraConfigRtsp).ip && (it.type === 'rtsp' || it.rtsp),
+        );
+
+        if (isAnyRtsp) {
+            if (
+                !this.camerasConfig.ffmpegPath &&
+                process.platform === 'win32' &&
+                !existsSync(`${__dirname}/../win-ffmpeg.exe`)
+            ) {
+                // Todo update ffmpeg if new cameras version has newer ffmpeg file
+                this.log.info('Decompress ffmpeg.exe...');
+                await decompress(`${__dirname}/../win-ffmpeg.zip`, `${__dirname}/../`);
+                this.ffmpegPath = findFFmpegPath(this.camerasConfig.ffmpegPath, this.log);
+            } else {
+                this.ffmpegPath = findFFmpegPath(this.camerasConfig.ffmpegPath, this.log);
+                const version = getFFmpegVersion(this.ffmpegPath, this.log);
+                if (version !== WIN_FFMPEG_VERSION) {
+                    // extract
+                    this.log.info('Decompress ffmpeg.exe...');
+                    await decompress(`${__dirname}/../win-ffmpeg.zip`, `${__dirname}/../`);
+                }
+            }
+
+            if (!existsSync(this.ffmpegPath) && !existsSync(`${this.ffmpegPath}.exe`)) {
+                this.log.error(`Cannot find ffmpeg in "${this.camerasConfig.ffmpegPath}"`);
+            }
+        }
+
+        try {
+            if (!existsSync(this.camerasConfig.tempPath)) {
+                mkdirSync(this.camerasConfig.tempPath);
+                this.log.debug(`Create snapshots directory: ${normalize(this.camerasConfig.tempPath)}`);
+            }
+        } catch (e) {
+            this.log.error(`Cannot create snapshots directory: ${e}`);
+        }
+
+        this.camerasConfig.cameras = this.camerasConfig.cameras.filter(cam => cam.enabled !== false);
+
+        // init all required camera providers
+        this.camerasConfig.cameras.forEach(item => {
+            if (item?.type) {
+                if (item.cacheTimeout === undefined || item.cacheTimeout === null || item.cacheTimeout === '') {
+                    item.cacheTimeout = this.camerasConfig.defaultCacheTimeout;
+                } else {
+                    item.cacheTimeout = parseInt(item.cacheTimeout as string, 10) || 0;
+                }
+
+                try {
+                    promises.push(
+                        createCamera(this, item, this.streamSubscribes, this.ffmpegPath)
+                            .then(camera => {
+                                this.cameras[camera.getName()] = camera;
+                            })
+                            .catch(e => this.log.error(`Cannot init camera ${item.name}: ${e && e.toString()}`)),
+                    );
+                } catch (e) {
+                    this.log.error(`Cannot load "${item.type}": ${e}`);
+                }
+            }
+        });
+
+        if (typeof this.camerasConfig.allowIPs === 'string') {
+            this.allowIPs = this.camerasConfig.allowIPs
+                .split(/,;/)
+                .map(i => i.trim())
+                .filter(i => i);
+
+            if (this.allowIPs.find(i => i === '*')) {
+                this.allowIPs = true;
+            }
+        }
+
+        this.bForce = {};
+
+        // garbage collector
+        this.bForceInterval = setInterval(() => {
+            const now = Date.now();
+            Object.keys(this.bForce).forEach(ip => {
+                if (now - this.bForce[ip] > 5000) {
+                    delete this.bForce[ip];
+                }
+            });
+        }, 30000);
+
+        this.subscribeStates('*');
+
+        await this.syncData();
+        await Promise.all(promises);
+        await this.syncConfig();
+        await this.fillFiles();
+        this.startWebServer();
     }
 }
 
